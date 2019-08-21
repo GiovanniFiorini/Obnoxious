@@ -19,7 +19,7 @@ def total_hazard_caused_by_facility(hazards: list, facility_id: int):
     return facility_hazard
 
 
-def total_hazard_perceived_by_town(hazards : list, town_id: int, facilities: list):
+def total_hazard_perceived_by_town(hazards: list, town_id: int, facilities: list):
     hazard = hazards[town_id]
     tot_hazard = 0
     for facility in facilities:
