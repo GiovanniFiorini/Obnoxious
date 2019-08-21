@@ -2,24 +2,24 @@ import json
 from entity.facility import Facility
 from entity.town import Town
 
-facilities = []
-towns = []
-hazards = []
 
-with open('../instances/basic.json', 'r') as f:
-    data = json.load(f)
+def setup(path: str):
 
-for facility in data['facilities']:
-    temp_facility = Facility(facility['facility_id'], facility['name'], facility['capacity'])
-    facilities.append(temp_facility)
+    facilities = []
+    towns = []
+    hazards = []
 
-for town in data['towns']:
-    temp_town = Town(town['town_id'], town['name'], town['garbage'])
-    towns.append(temp_town)
+    with open(path, 'r') as f:
+        data = json.load(f)
 
-hazards = data['hazards']
+    for facility in data['facilities']:
+        temp_facility = Facility(facility['facility_id'], facility['name'], facility['capacity'])
+        facilities.append(temp_facility)
 
-for town in towns:
-    print(f'({town.town_id}, {town.name}, {town.garbage}):')
-    for facility in facilities:
-        print(f'\t rischio associato a ({facility.facility_id}, {facility.name}, {facility.capacity}): {hazards[town.town_id-1][facility.facility_id-1]}')
+    for town in data['towns']:
+        temp_town = Town(town['town_id'], town['name'], town['garbage'])
+        towns.append(temp_town)
+
+    hazards = data['hazards']
+
+    return facilities, towns, hazards

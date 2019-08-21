@@ -1,39 +1,39 @@
 {
   "towns": [
     {
-      "town_id": 1,
+      "town_id": 0,
       "name": "Agrigento",
       "garbage": 16
     },
     {
-      "town_id": 2,
+      "town_id": 1,
       "name": "Bari",
       "garbage": 9
     },
     {
-      "town_id": 3,
+      "town_id": 2,
       "name": "Cagliari",
       "garbage": 22
     }
   ],
   "facilities": [
     {
-      "facility_id": 1,
+      "facility_id": 0,
       "name": "Acquario",
       "capacity": 10
     },
     {
-      "facility_id": 2,
+      "facility_id": 1,
       "name": "Balena",
       "capacity": 37
     },
     {
-      "facility_id": 3,
+      "facility_id": 2,
       "name": "Camaleonte",
       "capacity":  48
     },
     {
-      "facility_id": 4,
+      "facility_id": 3,
       "name": "Delfino",
       "capacity": 55
     }
