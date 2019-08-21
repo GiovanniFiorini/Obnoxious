@@ -1,7 +1,3 @@
-from entity.facility import Facility
-from entity.town import Town
-
-
 def total_garbage(towns: list):
     tot_garbage = 0
     for town in towns:
