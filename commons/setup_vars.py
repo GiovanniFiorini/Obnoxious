@@ -1,10 +1,16 @@
 import json
 from entity.facility import Facility
 from entity.town import Town
-from commons.utils import total_hazard_caused_by_facility
+from commons.facility import total_hazard_caused_by_facility
 
 
 def setup(path: str) -> tuple:
+    """
+    Function to setup the data structures that will hold the data for the current problem instance
+
+    :param path: a string containing the path to the JSON file with the problem's data
+    :return: a tuple containing facilities, towns and hazards of the current problem's instance
+    """
 
     facilities = []
     towns = []

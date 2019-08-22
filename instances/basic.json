@@ -25,22 +25,22 @@
     {
       "facility_id": 1,
       "name": "Balena",
-      "capacity": 37
+      "capacity": 17
     },
     {
       "facility_id": 2,
       "name": "Camaleonte",
-      "capacity":  48
+      "capacity":  18
     },
     {
       "facility_id": 3,
       "name": "Delfino",
-      "capacity": 55
+      "capacity": 25
     }
   ],
   "hazards": [
     [32, 18, 16, 12],
-    [13, 26, 5, 18],
-    [40, 2, 9, 29]
+    [13, 26, 5, 8],
+    [40, 2, 9, 9]
   ]
 }
