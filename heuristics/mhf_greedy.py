@@ -1,4 +1,5 @@
-from commons.utils import assign_facility_to_town, least_total_hazard_facility
+from commons.facility import least_total_hazard_facility
+from commons.town import assign_facility_to_town
 
 
 def mhf_greedy(facilities: list, towns: list, hazards: list) -> tuple:
