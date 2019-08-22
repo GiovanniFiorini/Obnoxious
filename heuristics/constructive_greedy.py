@@ -36,30 +36,27 @@ def constructive_greedy(facilities: list, towns: list, hazards: list):
     opened_facilities = []
     unassigned_towns = towns.copy()
     assigned_towns = []
-    current_facility_hazard = 101
 
     # iteration
     while True:
         # selection of facility that cause least total risk
-        for facility in closed_facilities:
-            facility_hazard = total_hazard_caused_by_facility(hazards, facility.facility_id)
-
-            if facility_hazard < current_facility_hazard:
-                current_facility_hazard = facility_hazard
-                current_facility = facility
+        current_facility = facility_least_total_hazard(facilities, hazards)
 
         # open the current facility, the best obtained
         current_facility.is_open = True
+
         # remove the current facility from the closed facilities list
         index = closed_facilities.index(current_facility)
         closed_facilities.pop(index)
+
         # update the opened facilities list
         opened_facilities.append(current_facility)
+
         # assign the facility to towns
         unassigned_towns, temp_assigned_towns = facility_assignment(current_facility, unassigned_towns)
+
         # reset of parameters
         assigned_towns += temp_assigned_towns
-        current_facility_hazard = 101
 
         # exit from loop if all towns have been assigned
         if not unassigned_towns:
