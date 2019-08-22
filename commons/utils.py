@@ -9,6 +9,7 @@ def total_capacity(facilities: list) -> int:
     return tot_capacity
 
 
+# check the hazards matrix and discover the facility with the minimum total hazard (for every town)
 def facility_least_total_hazard(facilities: list, hazards: list) -> Facility:
     current_facility_hazard = 101
     current_facility = None
@@ -31,6 +32,34 @@ def total_garbage(towns: list) -> int:
     for town in towns:
         tot_garbage += town.garbage
     return tot_garbage
+
+
+# assign a facility to many towns as possible (circa knapsack problem)
+def assign_facility_to_town(facility: Facility, unassigned_towns: list) -> tuple:
+    capacity = facility.capacity
+    assigned_towns: list = []
+
+    while True:
+        # get the town that produce the most amount of garbage
+        max_garbage_town = max(unassigned_towns, key=lambda town: town.garbage)
+
+        if max_garbage_town.garbage < capacity:
+            # decreasing current facility capacity by the garbage produced by the town
+            capacity -= max_garbage_town.garbage
+            # remove the current town from the unassigned towns list
+            max_garbage_town_index = unassigned_towns.index(max_garbage_town)
+            unassigned_towns.pop(max_garbage_town_index)
+            # assign the facility to the current town
+            max_garbage_town.facility = facility
+            # add the current town to the assigned towns list
+            assigned_towns.append(max_garbage_town)
+
+        # exit from loop if all the towns have been assigned
+        # or the minimum amount of garbage (of any town) is bigger than the residual capacity
+        if not unassigned_towns or min(unassigned_towns, key=lambda town: town.garbage).garbage > capacity:
+            break
+
+    return unassigned_towns, assigned_towns
 
 
 # HAZARDS
