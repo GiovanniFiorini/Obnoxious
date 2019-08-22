@@ -1,9 +1,8 @@
-from entity.facility import Facility
 from commons.utils import *
 
 
 # assign a facility to many towns as possible
-def facility_assignment(facility: Facility, unassigned_towns: list):
+def facility_assignment(facility: Facility, unassigned_towns: list) -> tuple:
     capacity = facility.capacity
     assigned_towns: list = []
 
@@ -30,12 +29,13 @@ def facility_assignment(facility: Facility, unassigned_towns: list):
     return unassigned_towns, assigned_towns
 
 
-def constructive_greedy(facilities: list, towns: list, hazards: list):
+def constructive_greedy(facilities: list, towns: list, hazards: list) -> tuple:
     # initial solution empty
     closed_facilities = facilities.copy()
     opened_facilities = []
     unassigned_towns = towns.copy()
     assigned_towns = []
+    current_facility: Facility
 
     # iteration
     while True:

@@ -2,7 +2,7 @@ from entity.facility import Facility
 
 
 # FACILITIES
-def total_capacity(facilities: list):
+def total_capacity(facilities: list) -> int:
     tot_capacity = 0
     for facility in facilities:
         tot_capacity += facility.capacity
@@ -26,7 +26,7 @@ def facility_least_total_hazard(facilities: list, hazards: list) -> Facility:
 
 
 # TOWNS
-def total_garbage(towns: list):
+def total_garbage(towns: list) -> int:
     tot_garbage = 0
     for town in towns:
         tot_garbage += town.garbage
@@ -34,14 +34,14 @@ def total_garbage(towns: list):
 
 
 # HAZARDS
-def total_hazard_caused_by_facility(hazards: list, facility_id: int):
+def total_hazard_caused_by_facility(hazards: list, facility_id: int) -> int:
     facility_hazard = 0
     for hazard in hazards:
         facility_hazard += hazard[facility_id]
     return facility_hazard
 
 
-def total_hazard_perceived_by_town(hazards: list, town_id: int, facilities: list):
+def total_hazard_perceived_by_town(hazards: list, town_id: int, facilities: list) -> int:
     hazard = hazards[town_id]
     tot_hazard = 0
     for facility in facilities:
