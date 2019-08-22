@@ -3,7 +3,7 @@ from entity.facility import Facility
 from entity.town import Town
 
 
-def setup(path: str):
+def setup(path: str) -> tuple:
 
     facilities = []
     towns = []
