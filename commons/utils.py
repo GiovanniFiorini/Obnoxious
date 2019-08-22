@@ -9,8 +9,14 @@ def total_capacity(facilities: list) -> int:
     return tot_capacity
 
 
-# check the hazards matrix and discover the facility with the minimum total hazard (for every town)
-def facility_least_total_hazard(facilities: list, hazards: list) -> Facility:
+def least_total_hazard_facility(facilities: list, hazards: list) -> Facility:
+    """
+    Check the hazards matrix and discover the facility with the minimum total hazard (for every town)
+
+    :param facilities: list of facilities
+    :param hazards: list of list, describe every hazard for the couple (town,facility)
+    :return: the facility with the minimum total hazard
+    """
     current_facility_hazard = 101
     current_facility = None
     for facility in facilities:
@@ -34,8 +40,14 @@ def total_garbage(towns: list) -> int:
     return tot_garbage
 
 
-# assign a facility to many towns as possible (circa knapsack problem)
 def assign_facility_to_town(facility: Facility, unassigned_towns: list) -> tuple:
+    """
+    Assign a facility to many towns as possible (circa knapsack problem)
+
+    :param facility: the facility to assign
+    :param unassigned_towns: list of the remaining towns with no facility assigned
+    :return: the unassigned towns, the town to whom the facility have been assigned
+    """
     capacity = facility.capacity
     assigned_towns: list = []
 
@@ -64,6 +76,13 @@ def assign_facility_to_town(facility: Facility, unassigned_towns: list) -> tuple
 
 # HAZARDS
 def total_hazard_caused_by_facility(hazards: list, facility_id: int) -> int:
+    """
+    Retrieve from the hazards matrix the total risk caused by facility
+
+    :param hazards: list of list, describe every hazard for the couple (town,facility)
+    :param facility_id: the facility of interest
+    :return: the amount of risk caused by the specified facility for every town
+    """
     facility_hazard = 0
     for hazard in hazards:
         facility_hazard += hazard[facility_id]
@@ -71,6 +90,14 @@ def total_hazard_caused_by_facility(hazards: list, facility_id: int) -> int:
 
 
 def total_hazard_perceived_by_town(hazards: list, town_id: int, facilities: list) -> int:
+    """
+    For the specified town retrieve the total risk caused by opened facility
+
+    :param hazards: list of list, describe every hazard for the couple (town,facility)
+    :param town_id: the town of interest
+    :param facilities: list of the facility
+    :return: the amount of risk perceived by the specified town
+    """
     hazard = hazards[town_id]
     tot_hazard = 0
     for facility in facilities:
