@@ -40,7 +40,7 @@ def constructive_greedy(facilities: list, towns: list, hazards: list):
     # iteration
     while True:
         # selection of facility that cause least total risk
-        current_facility = facility_least_total_hazard(facilities, hazards)
+        current_facility = facility_least_total_hazard(closed_facilities, hazards)
 
         # open the current facility, the best obtained
         current_facility.is_open = True
