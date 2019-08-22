@@ -13,7 +13,7 @@ def setup(path: str) -> tuple:
     with open(path, 'r') as f:
         data = json.load(f)
 
-    hazards = data['hazards']
+    hazards += data['hazards']
 
     for facility in data['facilities']:
         tot_hazard = total_hazard_caused_by_facility(hazards, facility['facility_id'])
