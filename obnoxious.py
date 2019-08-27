@@ -3,7 +3,7 @@ from heuristics.mhf_greedy import mhf_greedy
 from heuristics.mchrf_greedy import mchrf_greedy
 
 
-def main(choice: int):
+def obnoxious(choice: int):
     facilities, towns, hazards = setup("./instances/basic.json")
 
     if choice == 1:

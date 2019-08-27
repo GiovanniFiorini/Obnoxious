@@ -1,7 +1,9 @@
 import json
 from entity.facility import Facility
 from entity.town import Town
-from commons.facility import total_hazard_caused_by_facility
+from commons.hazard import total_hazard_caused_by_facility
+from commons.facility import total_capacity
+from commons.town import total_garbage
 
 
 def setup(path: str) -> tuple:
@@ -29,5 +31,9 @@ def setup(path: str) -> tuple:
     for town in data['towns']:
         temp_town = Town(town['town_id'], town['name'], town['garbage'])
         towns.append(temp_town)
+
+    if total_garbage(towns) > total_capacity(facilities):
+        print("L'istanza non ha soluzione: la capacità totale delle facility è minore dei rifiuti totali prodotti.")
+        exit(0)
 
     return facilities, towns, hazards
