@@ -196,7 +196,7 @@ def generate_instance(num_facilities: int, num_towns: int, file_name: str) -> No
         facility = {
             "facility_id": i,
             "name": random.choice(facility_dictionary),
-            "capacity": math.floor(random.uniform(51, 100))
+            "capacity": math.floor(random.uniform(51, 200))
         }
         facilities.append(facility)
 
