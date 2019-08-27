@@ -20,17 +20,17 @@
     {
       "facility_id": 0,
       "name": "Acquario",
-      "capacity": 10
+      "capacity": 22
     },
     {
       "facility_id": 1,
       "name": "Balena",
-      "capacity": 17
+      "capacity": 37
     },
     {
       "facility_id": 2,
       "name": "Camaleonte",
-      "capacity":  18
+      "capacity":  40
     },
     {
       "facility_id": 3,

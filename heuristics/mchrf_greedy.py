@@ -1,11 +1,9 @@
-from commons.facility import maximum_capacity_hazard_ratio_facility
-from commons.town import assign_facility_to_town
-
-
 def mchrf_greedy(facilities: list, towns: list, hazards: list) -> tuple:
     """
-    The algorithm is a greedy heuristic that decide which facility to open first based on capacity/hazard ratio,
-    starting from the facility with maximum ratio and proceeding by non ascending order
+    The following function implement a greedy heuristic that open enough facility to manage the total amount of garbage
+    produced by every city. The name of the greedy mhf stands for Minimum Hazard Facility.
+    -Best criteria: open first the facility that have the maximum capacity/hazard ratio
+    -Ind criteria: every town must use a facility
 
     :param facilities: list of the problem instance's facilities
     :param towns: list of the problem instance's towns
@@ -13,24 +11,41 @@ def mchrf_greedy(facilities: list, towns: list, hazards: list) -> tuple:
     :return: a tuple containing the used/unused facilities and the towns with their relative facilities
     """
 
-    closed_facilities = facilities.copy()
-    opened_facilities = []
-    unassigned_towns = towns.copy()
-    assigned_towns = []
+    # NB: Siamo nella condizione di progetto in cui la capacità minima
+    # è maggiore o uguale alla produzione di rifiuti massima
+
+    # initial empty solution
+    temp_facilities = facilities.copy()
+    temp_towns = towns.copy()
 
     while True:
-        current_facility = maximum_capacity_hazard_ratio_facility(closed_facilities)
+        # selection of facility that cause least total risk
+        current_facility = max(temp_facilities, key=lambda facility: facility.capacity/facility.total_hazard)
+        current_capacity = current_facility.capacity
 
-        current_facility.is_open = True
+        for temp_town in temp_towns:
+            if temp_town.garbage <= current_capacity:
+                # decreasing current facility capacity by the garbage produced by the town
+                current_capacity -= temp_town.garbage
+                # remove the current town from the temp towns list
+                temp_towns.pop(temp_towns.index(temp_town))
+                # assign the facility to the current town
+                towns[towns.index(temp_town)].facility = current_facility
 
-        closed_facilities.pop(closed_facilities.index(current_facility))
+        if current_capacity < current_facility.capacity:
+            # open the current facility
+            facilities[facilities.index(current_facility)].is_open = True
 
-        opened_facilities.append(current_facility)
+        # remove current facility from temp facilities list
+        temp_facilities.pop(temp_facilities.index(current_facility))
 
-        unassigned_towns, temp_assigned_towns = assign_facility_to_town(current_facility, unassigned_towns)
-        assigned_towns += temp_assigned_towns
-
-        if not unassigned_towns:
+        # exit from loop if all towns have been assigned
+        if not temp_towns:
+            print("Algoritmo completato con successo.")
+            break
+        # exit from loop if there are no more facilities
+        elif not temp_facilities:
+            print("L'istanza del problema non ha soluzione: non è stato possibile assegnare tutte le città.")
             break
 
-    return closed_facilities, opened_facilities, unassigned_towns, assigned_towns
+    return facilities, towns
