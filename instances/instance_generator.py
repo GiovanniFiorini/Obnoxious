@@ -59,7 +59,7 @@ def generate_instance(num_facilities: int, num_towns: int, file_name: str) -> No
         "Boötes",
         "Corona Borealis"
     ]
-    towns_dictionary = towns_dictionary = [
+    towns_dictionary = [
         "Rome",
         "Milan",
         "Naples",
@@ -195,7 +195,7 @@ def generate_instance(num_facilities: int, num_towns: int, file_name: str) -> No
     for i in range(num_facilities):
         facility = {
             "facility_id": i,
-            "name": random.choice(facility_dictionary),
+            "name": facility_dictionary[i],
             "capacity": math.floor(random.uniform(51, 200))
         }
         facilities.append(facility)
@@ -203,7 +203,7 @@ def generate_instance(num_facilities: int, num_towns: int, file_name: str) -> No
     for i in range(num_towns):
         town = {
             "town_id": i,
-            "name": random.choice(towns_dictionary),
+            "name": towns_dictionary[i],
             "garbage": math.floor(random.uniform(1, 50))
         }
         towns.append(town)
