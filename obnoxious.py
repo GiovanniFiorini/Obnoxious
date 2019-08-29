@@ -1,7 +1,7 @@
 from commons.setup_vars import setup
 from heuristics.mhf_greedy import mhf_greedy
 from heuristics.mchrf_greedy import mchrf_greedy
-from heuristics.local_search import local_search
+from heuristics.local_search import large_neighborhood_search
 from commons.utils import show_facility_usage_by_town, show_greedy_result, show_local_search_result
 import time
 
@@ -24,7 +24,7 @@ def obnoxious(choice: int, filename: str):
         show_greedy_result(facilities, towns, hazards, duration)
 
         start = time.time()
-        iterations, improvements = local_search(facilities, towns, hazards, 50, 10)
+        iterations, improvements = large_neighborhood_search(facilities, towns, hazards, 50, 10)
         end = time.time()
 
         duration = end - start
@@ -46,7 +46,7 @@ def obnoxious(choice: int, filename: str):
         show_greedy_result(facilities, towns, hazards, duration)
 
         start = time.time()
-        iterations, improvements = local_search(facilities, towns, hazards, 50, 10)
+        iterations, improvements = large_neighborhood_search(facilities, towns, hazards, 50, 10)
         end = time.time()
 
         duration = end - start
