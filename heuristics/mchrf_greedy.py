@@ -1,18 +1,16 @@
-def mchrf_greedy(facilities: list, towns: list, hazards: list) -> tuple:
+def mchrf_greedy(facilities: list, towns: list) -> bool:
     """
     The following function implement a greedy heuristic that open enough facility to manage the total amount of garbage
-    produced by every city. The name of the greedy mhf stands for Minimum Hazard Facility.
+    produced by every city. The name of the greedy mhf stands for Minimum Capacity/Hazard Ratio Facility.
     -Best criteria: open first the facility that have the maximum capacity/hazard ratio
     -Ind criteria: every town must use a facility
 
     :param facilities: list of the problem instance's facilities
     :param towns: list of the problem instance's towns
-    :param hazards: matrix of hazards caused by each facilities to the corresponding town
     :return: a tuple containing the used/unused facilities and the towns with their relative facilities
     """
 
-    # NB: Siamo nella condizione di progetto in cui la capacità minima
-    # è maggiore o uguale alla produzione di rifiuti massima
+    success = False
 
     # initial empty solution
     temp_facilities = facilities.copy()
@@ -41,11 +39,10 @@ def mchrf_greedy(facilities: list, towns: list, hazards: list) -> tuple:
 
         # exit from loop if all towns have been assigned
         if not temp_towns:
-            print("Algoritmo completato con successo.")
+            success = True
             break
         # exit from loop if there are no more facilities
         elif not temp_facilities:
-            print("L'istanza del problema non ha soluzione: non è stato possibile assegnare tutte le città.")
             break
 
-    return facilities, towns
+    return success

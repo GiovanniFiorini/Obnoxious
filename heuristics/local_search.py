@@ -96,4 +96,4 @@ def local_search(facilities: list, towns: list, hazards: list, max_iteration, ma
         if iteration == max_iteration:
             break
 
-    return facilities, towns, iteration, improvement_counter
+    return iteration, improvement_counter
