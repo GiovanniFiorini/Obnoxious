@@ -20,6 +20,15 @@ def show_data(towns: list, facilities: list, hazards: list):
 
 
 def show_greedy_result(facilities: list, towns: list, hazards: list, duration: float):
+    """
+    Print the formatted result of the Greedy Algorithm
+
+    :param facilities: list of facilities
+    :param towns: list of towns
+    :param hazards: matrix of hazards
+    :param duration: the execution time of the algorithm
+    :return: None
+    """
 
     town, max_hazard = get_town_with_max_hazard(facilities, towns, hazards)
 
@@ -34,6 +43,18 @@ def show_greedy_result(facilities: list, towns: list, hazards: list, duration: f
 
 
 def show_local_search_result(facilities: list, towns: list, hazards: list, duration: float, iteration: int, improvements: int):
+    """
+    Print the formatted result of the Local Search Algorithm
+
+    :param facilities: list of facilities
+    :param towns: list of towns
+    :param hazards: list of hazards
+    :param duration: the execution time of the algorithm
+    :param iteration: number of the iterations
+    :param improvements: number of improvements
+    :return: None
+    """
+
     town, max_hazard = get_town_with_max_hazard(facilities, towns, hazards)
 
     print(f"Local Search Result, exec_time [{duration}]")
@@ -48,6 +69,13 @@ def show_local_search_result(facilities: list, towns: list, hazards: list, durat
 
 
 def show_facility_usage_by_town(towns: list):
+    """
+    Show the usage of the facilities listed by town
+
+    :param towns: list of towns
+    :return: None
+    """
+
     print("\n\nFacility Usage By Town")
     for town in towns:
         print(f"{town.name} with garbage= {town.garbage} use facility: {town.facility.name}"

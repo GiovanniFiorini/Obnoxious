@@ -5,7 +5,7 @@ from commons.town import get_town_with_max_hazard
 def large_neighborhood_search(facilities: list, towns: list, hazards: list, max_iteration, max_improvement_counter) -> tuple:
     """
     Implements a local search on the solution obtained by the greedy.
-    This algorithm is inspired by the Large Neighborhood  Search.
+    This algorithm is inspired by the Large Neighborhood Search.
 
     :param facilities: list of the problem instance's facilities
     :param towns: list of the problem instance's towns
@@ -18,8 +18,8 @@ def large_neighborhood_search(facilities: list, towns: list, hazards: list, max_
     # counters
     max_attempts_per_swappable_facility = 10
     attempts_per_swappable_facility = 0
-    improvement_counter = 0
-    iteration = 0
+    improvements = 0
+    iterations = 0
 
     # list of the opened facilities
     solutions = list(filter(lambda o_facility: o_facility.is_open, facilities.copy()))
@@ -56,7 +56,7 @@ def large_neighborhood_search(facilities: list, towns: list, hazards: list, max_
                             town.facility = test_facility
 
                     # reset the attempts per town counter because now there is a new solution to iterate on
-                    improvement_counter += 1
+                    improvements += 1
 
                     # rebuild the solution
                     solutions = list(filter(lambda o_facility: o_facility.is_open, facilities.copy()))
@@ -88,12 +88,12 @@ def large_neighborhood_search(facilities: list, towns: list, hazards: list, max_
             break
 
         # check the number of improvement
-        if improvement_counter == max_improvement_counter:
+        if improvements == max_improvement_counter:
             break
 
-        iteration += 1
+        iterations += 1
         # check the number of iteration
-        if iteration == max_iteration:
+        if iterations == max_iteration:
             break
 
-    return iteration, improvement_counter
+    return iterations, improvements

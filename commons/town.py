@@ -24,6 +24,7 @@ def get_town_with_max_hazard(facilities: list, towns: list, hazards: list) -> tu
     :param hazards: matrix of hazards caused by each facilities to the corresponding town
     :return: tuple, the town with the maximum hazard associated to and the value of that hazard
     """
+
     town = max(towns, key=lambda c_town: total_hazard_perceived_by_town(hazards, c_town.town_id, facilities))
     town_hazard = total_hazard_perceived_by_town(hazards, town.town_id, facilities)
 
