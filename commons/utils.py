@@ -78,5 +78,5 @@ def show_facility_usage_by_town(towns: list):
 
     print("\n\nFacility Usage By Town")
     for town in towns:
-        print(f"{town.name} with garbage= {town.garbage} use facility: {town.facility.name}"
+        print(f"{town.name} with garbage = {town.garbage} use facility: {town.facility.name}"
               f" (capacity= {town.facility.capacity})")
