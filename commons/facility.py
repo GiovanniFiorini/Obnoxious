@@ -15,7 +15,21 @@ def total_capacity(facilities: list) -> int:
     return tot_capacity
 
 
-def facility_with_max_hazard_per_town(open_facilities: list, town_id: int, hazards) -> Facility:
+def total_hazard(facilities: list) -> int:
+    """
+    Function to obtain the total hazard caused by facilities
+
+    :param facilities: list of problem's instance facility
+    :return: an int representing the total hazard
+    """
+
+    tot_hazard = 0
+    for facility in facilities:
+        tot_hazard += facility.total_hazard
+    return tot_hazard
+
+
+def facility_with_max_hazard_per_town(open_facilities: list, town_id: int, hazards: list) -> Facility:
     """
     Retrieve the facility with the highest hazard for the town specified
 

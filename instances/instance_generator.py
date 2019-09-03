@@ -3,14 +3,14 @@ import math
 import json
 
 
-def generate_instance(num_facilities: int, num_towns: int, file_name: str) -> None:
+def generate_instance(num_facilities: int, num_towns: int, file_name: str) -> bool:
     """
     Function to generate problem's instances
 
     :param num_towns: number of towns to be generated
     :param num_facilities: number of facilities to be generated
     :param file_name: name of the json file containing the problem's instance
-    :return: None
+    :return: bool representing success/failure
     """
 
     facility_dictionary = [
@@ -180,13 +180,15 @@ def generate_instance(num_facilities: int, num_towns: int, file_name: str) -> No
         "Agrigento"
     ]
 
-    if num_facilities > len(facility_dictionary):
-        print(f"Sono state richieste troppe facility, il numero massimo consentito è di: {len(facility_dictionary)}")
-        return
+    if num_facilities > len(facility_dictionary) or num_towns > len(towns_dictionary):
+        print("\nToo much elements required:")
+        print(f"\tmax facilities: {len(facility_dictionary)}")
+        print(f"\tmax towns: {len(towns_dictionary)}")
+        return False
 
-    if num_towns > len(towns_dictionary):
-        print(f"Sono state richieste troppe facility, il numero massimo consentito è di: {len(towns_dictionary)}")
-        return
+    if num_facilities < 1 or num_towns < 1:
+        print("\nFacility and towns elements must be more than 0\n")
+        return False
 
     facilities = []
     towns = []
@@ -196,7 +198,7 @@ def generate_instance(num_facilities: int, num_towns: int, file_name: str) -> No
         facility = {
             "facility_id": i,
             "name": facility_dictionary[i],
-            "capacity": math.floor(random.uniform(51, 200))
+            "capacity": math.floor(random.uniform(51, 300))
         }
         facilities.append(facility)
 
@@ -222,3 +224,5 @@ def generate_instance(num_facilities: int, num_towns: int, file_name: str) -> No
 
     with open(f"./instances/{file_name}.json", 'w') as outfile:
         json.dump(data, outfile)
+
+    return True

@@ -40,90 +40,116 @@ def obnoxious():
     towns = None
     hazards = None
 
+    instance_setup = False
+
+    greedy_success = False
+
     while True:
-        choice = input("Choose the action: ")
+        command = input("Give a command: ")
 
-        start = 0
-        end = 0
-
-        iterations = 0
-        improvements = 0
-
-        if choice == "exit":
+        if command == "exit":
             print("\nGoodbye!\n")
             break
 
-        if (choice == "3" or choice == "4" or choice == "5" or choice == "6" or choice == "7") and not facilities:
-            print("\nThere are no instance set up to work on; you need to give one first.\n")
-            continue
-
-        if choice == "1":
+        elif command == "1":
 
             num_facilities = int(input("Insert the number of facilities: "))
             num_towns = int(input("Insert the number of towns: "))
             filename = input("Insert the file name: ")
-            generate_instance(num_facilities, num_towns, filename)
+            instance_generated = generate_instance(num_facilities, num_towns, filename)
 
-            print(f"\nNew instance '{filename}' with {num_facilities} facilities and {num_towns} towns has been "
-                  f"generated in './instances'\n")
+            if instance_generated:
+                print(f"\nNew instance '{filename}' with {num_facilities} facilities and {num_towns} towns has been "
+                      f"generated in './instances'\n")
+            else:
+                print("\nError while generating the new instance\n")
 
-        if choice == "2":
+        elif command == "2":
 
-            filename = input("Insert instance file relative path: ")
+            filename = input("Insert instance file name contained in 'instances' directory: ")
 
             path = pathlib.Path(f"./instances/{filename}.json")
 
             if path.exists() and path.is_file():
                 facilities, towns, hazards = setup(f"./instances/{filename}.json")
 
-                print("\nInstance setup completed correctly\n")
+                if facilities and towns and hazards:
+                    print("\nInstance setup completed correctly\n")
+                    instance_setup = True
+                    greedy_success = False
+                else:
+                    print("\nError during the instance setup\n")
+                    instance_setup = False
             else:
                 print("\nFile doesn't exist\n")
+                instance_setup = False
 
-        if choice == "3":
+        elif command == "3":
 
-            start = time.time()
-            greedy_success = mhf_greedy(facilities, towns)
-            end = time.time()
+            if instance_setup:
+                start = time.time()
+                greedy_success = mhf_greedy(facilities, towns)
+                end = time.time()
 
+                if greedy_success:
+                    print("\nThe Minimum Hazard Facility Greedy has been completed\n")
+                    duration = end - start
+                    show_greedy_result(facilities, towns, hazards, duration)
+                else:
+                    print("\nThe Minimum Hazard Facility Greedy failed.\n")
+            else:
+                print("\nNo instance has been set up: you need to set up an instance before executing a greedy "
+                      "heuristic\n")
+
+        elif command == "4":
+
+            if instance_setup:
+                start = time.time()
+                greedy_success = mchrf_greedy(facilities, towns)
+                end = time.time()
+
+                if greedy_success:
+                    print("\nThe Minimum Capacity/Hazard Ratio Facility Greedy has been completed\n")
+                    duration = end - start
+                    show_greedy_result(facilities, towns, hazards, duration)
+                else:
+                    print("\nThe Minimum Capacity/Hazard Ratio Facility Greedy failed.\n")
+            else:
+                print("\nNo instance has been set up: you need to set up an instance before executing a greedy "
+                      "heuristic\n")
+
+        elif command == "5":
             if not greedy_success:
-                print("The Minimum Hazard Facility Greedy failed.")
-                continue
+                print("\nThe Large Neighborhood Local Search cannot be performed: you need to execute a greedy first\n")
+            else:
+                start = time.time()
+                iterations, improvements = large_neighborhood_search(facilities, towns, hazards, 50, 10)
+                end = time.time()
 
-        if choice == "4":
+                print("\nThe Large Neighborhood Local Search has been completed\n")
+                duration = end - start
+                show_local_search_result(facilities, towns, hazards, duration, iterations, improvements)
 
-            start = time.time()
-            greedy_success = mchrf_greedy(facilities, towns)
-            end = time.time()
-
+        elif command == "6":
             if not greedy_success:
-                print("The Minimum Capacity/Hazard Ratio Facility Greedy failed.")
-                continue
+                print("\nThe Variable Depth Local Search cannot be performed: you need to execute a greedy first\n")
+            else:
+                start = time.time()
+                iterations, improvements = variable_depth_search(facilities, towns, hazards, 50, 10)
+                end = time.time()
 
-        if choice == "5":
+                print("\nThe Variable Depth Local Search has been completed\n")
+                duration = end - start
+                show_local_search_result(facilities, towns, hazards, duration, iterations, improvements)
 
-            start = time.time()
-            iterations, improvements = large_neighborhood_search(facilities, towns, hazards, 50, 10)
-            end = time.time()
+        elif command == "7":
+            if instance_setup:
+                show_facility_usage_by_town(towns)
+            else:
+                print("\nYou need to set up an instance in order to see the facility usage by town\n")
 
-        if choice == "6":
-
-            start = time.time()
-            iterations, improvements = variable_depth_search(facilities, towns, hazards, 50, 10)
-            end = time.time()
-
-        if choice == "3" or choice == "4":
-
-            duration = end - start
-            show_greedy_result(facilities, towns, hazards, duration)
-
-        if choice == "5" or choice == "6":
-
-            duration = end - start
-            show_local_search_result(facilities, towns, hazards, duration, iterations, improvements)
-
-        if choice == "7" and facilities:
-            show_facility_usage_by_town(towns)
+        else:
+            print(f"\nThe command '{command}' is not supported yet\n")
 
 
 if __name__ == "__main__":

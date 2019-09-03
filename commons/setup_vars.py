@@ -33,7 +33,15 @@ def setup(path: str) -> tuple:
         towns.append(temp_town)
 
     if total_garbage(towns) > total_capacity(facilities):
-        print("L'istanza non ha soluzione: la capacità totale delle facility è minore dei rifiuti totali prodotti.")
-        exit(0)
+        print("\nInvalid instance: total capacity is lower tha the total produced garbage\n")
+        facilities = None
+        towns = None
+        hazards = None
+
+    if len(facilities) == 0 or len(towns) == 0 or len(hazards) == 0:
+        print("\nInvalid instance: the given instance file is invalid\n")
+        facilities = None
+        towns = None
+        hazards = None
 
     return facilities, towns, hazards
