@@ -1,67 +1,156 @@
 import time
+import pathlib
 from commons.setup_vars import setup
 from heuristics.mhf_greedy import mhf_greedy
 from heuristics.mchrf_greedy import mchrf_greedy
 from heuristics.large_neighborhood_search import large_neighborhood_search
 from heuristics.variable_depth_search import variable_depth_search
 from commons.utils import show_facility_usage_by_town, show_greedy_result, show_local_search_result
+from instances.instance_generator import generate_instance
 
 
-def obnoxious(greedy: int, local_search: int, filename: str):
+def obnoxious():
     """
-    The main function, it runs the algorithm chosen
+    The project main function
 
-    :param greedy: the greedy chosen
-    :param local_search: the local search chosen
-    :param filename: the name of the file containing the instance
     :return: None
     """
 
-    facilities, towns, hazards = setup(f"./instances/{filename}.json")
+    print("  ██████╗  ██████╗  ███╗   ██╗  ██████╗  ██╗  ██╗ ██╗  ██████╗  ██╗   ██╗ ███████╗")
+    print(" ██╔═══██╗ ██╔══██╗ ████╗  ██║ ██╔═══██╗ ╚██╗██╔╝ ██║ ██╔═══██╗ ██║   ██║ ██╔════╝")
+    print(" ██║   ██║ ██████╔╝ ██╔██╗ ██║ ██║   ██║  ╚███╔╝  ██║ ██║   ██║ ██║   ██║ ███████╗")
+    print(" ██║   ██║ ██╔══██╗ ██║╚██╗██║ ██║   ██║  ██╔██╗  ██║ ██║   ██║ ██║   ██║ ╚════██║")
+    print(" ╚██████╔╝ ██████╔╝ ██║ ╚████║ ╚██████╔╝ ██╔╝ ██╗ ██║ ╚██████╔╝ ╚██████╔╝ ███████║")
+    print("  ╚═════╝  ╚═════╝  ╚═╝  ╚═══╝  ╚═════╝  ╚═╝  ╚═╝ ╚═╝  ╚═════╝   ╚═════╝  ╚══════╝")
 
-    start = 0
-    end = 0
+    print("\n\n- COMMAND LIST -------------------------------------------")
+    print("|                                                        |")
+    print("| 1 - Generate new instance file                         |")
+    print("| 2 - Insert instance file relative path                 |")
+    print("| 3 - Minimum Hazard Facility Greedy                     |")
+    print("| 4 - Minimum Capacity/Hazard Ratio Facility Greedy      |")
+    print("| 5 - Large Neighborhood Local Search                    |")
+    print("| 6 - Variable Depth Local Search                        |")
+    print("| 7 - Show facility usage by town                        |")
+    print("|                                                        |")
+    print("| (type 'exit' to exit the program)                      |")
+    print("----------------------------------------------------------\n\n")
 
-    iterations = 0
-    improvements = 0
+    facilities = None
+    towns = None
+    hazards = None
 
-    if greedy == 1:
-        start = time.time()
-        greedy_success = mhf_greedy(facilities, towns)
-        end = time.time()
+    instance_setup = False
 
-        if not greedy_success:
-            print("The Minimum Hazard Facility Greedy failed.")
-            return
+    greedy_success = False
 
-    if greedy == 2:
+    while True:
+        command = input("Give a command: ")
 
-        start = time.time()
-        greedy_success = mchrf_greedy(facilities, towns)
-        end = time.time()
+        if command == "exit":
+            print("\nGoodbye!\n")
+            break
 
-        if not greedy_success:
-            print("The Minimum Capacity/Hazard Ratio Facility Greedy failed.")
-            return
+        elif command == "1":
 
-    duration = end - start
+            num_facilities = int(input("Insert the number of facilities: "))
+            num_towns = int(input("Insert the number of towns: "))
+            filename = input("Insert the file name: ")
+            instance_generated = generate_instance(num_facilities, num_towns, filename)
 
-    show_greedy_result(facilities, towns, hazards, duration)
+            if instance_generated:
+                print(f"\nNew instance '{filename}' with {num_facilities} facilities and {num_towns} towns has been "
+                      f"generated in './instances'\n")
+            else:
+                print("\nError while generating the new instance\n")
 
-    if local_search == 1:
+        elif command == "2":
 
-        start = time.time()
-        iterations, improvements = large_neighborhood_search(facilities, towns, hazards, 50, 10)
-        end = time.time()
+            filename = input("Insert instance file name contained in 'instances' directory: ")
 
-    if local_search == 2:
+            path = pathlib.Path(f"./instances/{filename}.json")
 
-        start = time.time()
-        iterations, improvements = variable_depth_search(facilities, towns, hazards, 50, 10)
-        end = time.time()
+            if path.exists() and path.is_file():
+                facilities, towns, hazards = setup(f"./instances/{filename}.json")
 
-    duration = end - start
+                if facilities and towns and hazards:
+                    print("\nInstance setup completed correctly\n")
+                    instance_setup = True
+                    greedy_success = False
+                else:
+                    print("\nError during the instance setup\n")
+                    instance_setup = False
+            else:
+                print("\nFile doesn't exist\n")
+                instance_setup = False
 
-    show_local_search_result(facilities, towns, hazards, duration, iterations, improvements)
+        elif command == "3":
 
-    # show_facility_usage_by_town(towns)
+            if instance_setup:
+                start = time.time()
+                greedy_success = mhf_greedy(facilities, towns)
+                end = time.time()
+
+                if greedy_success:
+                    print("\nThe Minimum Hazard Facility Greedy has been completed\n")
+                    duration = end - start
+                    show_greedy_result(facilities, towns, hazards, duration)
+                else:
+                    print("\nThe Minimum Hazard Facility Greedy failed.\n")
+            else:
+                print("\nNo instance has been set up: you need to set up an instance before executing a greedy "
+                      "heuristic\n")
+
+        elif command == "4":
+
+            if instance_setup:
+                start = time.time()
+                greedy_success = mchrf_greedy(facilities, towns)
+                end = time.time()
+
+                if greedy_success:
+                    print("\nThe Minimum Capacity/Hazard Ratio Facility Greedy has been completed\n")
+                    duration = end - start
+                    show_greedy_result(facilities, towns, hazards, duration)
+                else:
+                    print("\nThe Minimum Capacity/Hazard Ratio Facility Greedy failed.\n")
+            else:
+                print("\nNo instance has been set up: you need to set up an instance before executing a greedy "
+                      "heuristic\n")
+
+        elif command == "5":
+            if not greedy_success:
+                print("\nThe Large Neighborhood Local Search cannot be performed: you need to execute a greedy first\n")
+            else:
+                start = time.time()
+                iterations, improvements = large_neighborhood_search(facilities, towns, hazards, 50, 10)
+                end = time.time()
+
+                print("\nThe Large Neighborhood Local Search has been completed\n")
+                duration = end - start
+                show_local_search_result(facilities, towns, hazards, duration, iterations, improvements)
+
+        elif command == "6":
+            if not greedy_success:
+                print("\nThe Variable Depth Local Search cannot be performed: you need to execute a greedy first\n")
+            else:
+                start = time.time()
+                iterations, improvements = variable_depth_search(facilities, towns, hazards, 50, 10)
+                end = time.time()
+
+                print("\nThe Variable Depth Local Search has been completed\n")
+                duration = end - start
+                show_local_search_result(facilities, towns, hazards, duration, iterations, improvements)
+
+        elif command == "7":
+            if instance_setup:
+                show_facility_usage_by_town(towns)
+            else:
+                print("\nYou need to set up an instance in order to see the facility usage by town\n")
+
+        else:
+            print(f"\nThe command '{command}' is not supported yet\n")
+
+
+if __name__ == "__main__":
+    obnoxious()
