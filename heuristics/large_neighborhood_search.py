@@ -2,7 +2,7 @@ import random
 from commons.town import get_town_with_max_hazard
 
 
-def large_neighborhood_search(facilities: list, towns: list, hazards: list, max_iteration, max_improvement_counter) -> tuple:
+def large_neighborhood_search(facilities: list, towns: list, hazards: list, max_iteration: int = 50, max_improvement: int = 10) -> tuple:
     """
     Implements a local search on the solution obtained by the greedy.
     This algorithm is inspired by the Large Neighborhood Search.
@@ -11,7 +11,7 @@ def large_neighborhood_search(facilities: list, towns: list, hazards: list, max_
     :param towns: list of the problem instance's towns
     :param hazards: matrix of hazards caused by each facilities to the corresponding town
     :param max_iteration: limits the number of iteration
-    :param max_improvement_counter: limits the number of the improvement
+    :param max_improvement: limits the number of the improvement
     :return: a tuple with the number of iteration performed and the number of improvements obtained
     """
 
@@ -88,7 +88,7 @@ def large_neighborhood_search(facilities: list, towns: list, hazards: list, max_
             break
 
         # check the number of improvement
-        if improvements == max_improvement_counter:
+        if improvements == max_improvement:
             break
 
         iterations += 1

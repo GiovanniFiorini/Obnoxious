@@ -181,7 +181,7 @@ def generate_instance(num_facilities: int, num_towns: int, file_name: str) -> bo
     ]
 
     if num_facilities > len(facility_dictionary) or num_towns > len(towns_dictionary):
-        print("\nToo much elements required:")
+        print("\nToo many elements required:")
         print(f"\tmax facilities: {len(facility_dictionary)}")
         print(f"\tmax towns: {len(towns_dictionary)}")
         return False

@@ -6,7 +6,7 @@ from commons.facility import facility_with_max_hazard_per_town
 from commons.town import get_town_with_max_hazard
 
 
-def variable_depth_search(facilities: list, towns: list, hazards: list, max_iteration: int, max_improvement: int) -> tuple:
+def variable_depth_search(facilities: list, towns: list, hazards: list, max_iteration: int = 50, max_improvement: int = 10) -> tuple:
     """
     Implements a local search on the solution obtained by the greedy.
     This algorithm is inspired by the Variable Depth Search.
