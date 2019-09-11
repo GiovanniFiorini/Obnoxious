@@ -55,8 +55,7 @@ def show_greedy_result(facilities: list, towns: list, hazards: list, duration: f
     print("")
 
 
-def show_local_search_result(facilities: list, towns: list, hazards: list, duration: float,
-                             iterations: int, improvements: int):
+def show_local_search_result(facilities: list, towns: list, hazards: list, duration: float, iterations: int, improvements: int):
     """
     Print the formatted result of the Local Search Algorithm
 
@@ -76,6 +75,43 @@ def show_local_search_result(facilities: list, towns: list, hazards: list, durat
     max_hazard_facility = facility_with_max_hazard_per_town(opened_facilities, town.town_id, hazards)
 
     print(f":::: LOCAL SEARCH RESULTS ::::")
+    print(f"\texec_time: {duration} sec")
+    print(f"\tIteration: {iterations}, Improvement: {improvements}")
+    print(f'\nTotal garbage produced by all cities: {total_garbage(towns)}')
+    print(f"Total capacity of all opened facilities: "
+          f"{total_capacity(opened_facilities)}")
+    print(f"Total hazard caused by all opened facilities: "
+          f"{total_hazard(opened_facilities)}")
+    print("\nTown with max hazard:")
+    print(f"\t{town.name} -> highest suffered hazard: "
+          f"{max_hazard} caused by {max_hazard_facility.name}, garbage: {town.garbage}")
+    print("Opened Facility:")
+    for facility in facilities:
+        if facility.is_open:
+            print(f"\t{facility.name} -> capacity: {facility.capacity}, global caused hazard: {facility.total_hazard}")
+    print("")
+
+
+def show_grasp_result(facilities: list, towns: list, hazards: list, duration: float, iterations: int, improvements: int):
+    """
+    Print the formatted result of the GRASP Algorithm
+
+    :param facilities: list of facilities
+    :param towns: list of towns
+    :param hazards: list of hazards
+    :param duration: the execution time of the algorithm
+    :param iterations: number of the iterations
+    :param improvements: number of improvements
+    :return: None
+    """
+
+    opened_facilities = list(filter(lambda el: el.is_open, facilities))
+
+    town, max_hazard = get_town_with_max_hazard(facilities, towns, hazards)
+
+    max_hazard_facility = facility_with_max_hazard_per_town(opened_facilities, town.town_id, hazards)
+
+    print(f":::: GRASP RESULTS ::::")
     print(f"\texec_time: {duration} sec")
     print(f"\tIteration: {iterations}, Improvement: {improvements}")
     print(f'\nTotal garbage produced by all cities: {total_garbage(towns)}')

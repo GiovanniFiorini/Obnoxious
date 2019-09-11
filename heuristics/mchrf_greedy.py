@@ -1,4 +1,9 @@
-def mchrf_greedy(facilities: list, towns: list) -> bool:
+from math import ceil
+from random import choice
+from heapq import nlargest
+
+
+def mchrf_greedy(facilities: list, towns: list, randomness: bool = False) -> bool:
     """
     The following function implement a greedy heuristic that open enough facility to manage the total amount of garbage
     produced by every city. The name of the greedy mhf stands for Minimum Capacity/Hazard Ratio Facility.
@@ -7,7 +12,8 @@ def mchrf_greedy(facilities: list, towns: list) -> bool:
 
     :param facilities: list of the problem instance's facilities
     :param towns: list of the problem instance's towns
-    :return: a tuple containing the used/unused facilities and the towns with their relative facilities
+    :param randomness: whether the greedy is random or not
+    :return: bool representing success/failure
     """
 
     success = False
@@ -18,7 +24,12 @@ def mchrf_greedy(facilities: list, towns: list) -> bool:
 
     while True:
         # selection of facility that cause least total risk
-        current_facility = max(temp_facilities, key=lambda facility: facility.capacity/facility.total_hazard)
+        if randomness:
+            k_facilities = nlargest(ceil(len(facilities) * 0.15), temp_facilities,
+                                    key=lambda facility: facility.capacity/facility.total_hazard)
+            current_facility = choice(k_facilities)
+        else:
+            current_facility = min(temp_facilities, key=lambda facility: facility.total_hazard)
         current_capacity = current_facility.capacity
 
         for temp_town in temp_towns:
