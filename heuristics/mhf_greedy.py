@@ -6,7 +6,7 @@ from heapq import nsmallest
 def mhf_greedy(facilities: list, towns: list, randomness: bool = False) -> bool:
     """
     The following function implement a greedy heuristic that open enough facility to manage the total amount of garbage
-    produced by every city. The name of the greedy mhf stands for Minimum Hazard Facility.
+    produced by every city. The name of the greedy MHF stands for Minimum Hazard Facility.
     -Best criteria: open first the facility that have the minimum total risk (the sum of the hazard for every city)
     -Ind criteria: every town must use a facility and the total capacity (sum of the capacity of the opened facility)
                    must be higher than the total garbage (sum of the garbage of every town)
