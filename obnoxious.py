@@ -29,7 +29,7 @@ def obnoxious():
     print("| 1 - Generate new instance file                         |")
     print("| 2 - Insert instance file relative path                 |")
     print("| 3 - Minimum Hazard Facility Greedy                     |")
-    print("| 4 - Minimum Capacity/Hazard Ratio Facility Greedy      |")
+    print("| 4 - Maximum Capacity/Hazard Ratio Facility Greedy      |")
     print("| 5 - Large Neighborhood Local Search                    |")
     print("| 6 - Variable Depth Local Search                        |")
     print("| 7 - GRASP                                              |")
