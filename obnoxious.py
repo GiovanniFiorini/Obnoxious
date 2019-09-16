@@ -120,11 +120,11 @@ def obnoxious():
                 end = time.time()
 
                 if greedy_success:
-                    print("\nThe Minimum Capacity/Hazard Ratio Facility Greedy has been completed\n")
+                    print("\nThe Maximum Capacity/Hazard Ratio Facility Greedy has been completed\n")
                     duration = end - start
                     show_greedy_result(facilities, towns, hazards, duration)
                 else:
-                    print("\nThe Minimum Capacity/Hazard Ratio Facility Greedy failed.\n")
+                    print("\nThe Maximum Capacity/Hazard Ratio Facility Greedy failed.\n")
             else:
                 print("\nNo instance has been set up: you need to set up an instance before executing a greedy "
                       "heuristic\n")
